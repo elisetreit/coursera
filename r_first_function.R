@@ -6,7 +6,16 @@ above10 <- function(x){
   x[use] #selects values that are true in use
 }
 
-above <- function(x, n){
+above <- function(x, n =10){
   use <- x>n
   x[use]
 }
+column_mean <- function(x, removeNA = TRUE){
+  nc = ncol(x)
+  means = numeric(nc)
+  for(i in 1:nc){
+    means[i] <- mean(x[, i], na.rm = removeNA)
+  }
+  means
+}
+
