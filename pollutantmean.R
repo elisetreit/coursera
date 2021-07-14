@@ -1,16 +1,12 @@
+#potentially wrong approach: this will weight all equally, rather weight ones
+#with more observations more heavily
 pollutantmean <- function(directory = "specdata", pollutant, id = 1:332){
-  #get vector of all means in directory
-  pol_mean <- numeric(length = length(id))
-  #this index thing is kinda hacky, try to fix later
-  index = 1
-  for(i in id){
-    path <- get_path(i, directory)
-    dat <- read.csv(path)
-    pol_mean[index] <- mean(dat[, pollutant], na.rm = TRUE)
-    index = index + 1
+  dat_val <- numeric()
+  for(i in seq_along(id)){
+    dat <- read.csv(get_path(id[i], directory))
+    dat_val <- append(dat_val, dat[, pollutant])
   }
-  #get average of vector
-  mean(pol_mean, na.rm = TRUE)
+  mean(dat_val, na.rm=TRUE)
 }
 
 get_path <- function(file_n, directory = "specdata"){
@@ -23,4 +19,5 @@ get_path <- function(file_n, directory = "specdata"){
   }
   paste(directory, "/", ival, ".csv", sep = "")
 }
+
   
