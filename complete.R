@@ -1,5 +1,6 @@
-source("pollutantmean.R")
+
 complete <- function(directory = "specdata", id = 1:332){
+  source("pollutantmean.R")
   comp <- data.frame(id = integer(), nobs = integer())
   for(i in id){
     dat <- read.csv(get_path(i, directory))
