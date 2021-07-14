@@ -2,11 +2,15 @@
 corr <- function(directory = "specdata", threshold = 0){
   source("complete.R")
   df.counts <- complete()
-  df.thresh <- df.counts[df.counts$dobs >= threshold]
+  df.thresh <- data.frame()
+  df.thresh <- df.counts[df.counts$nobs >= threshold ,]
   cor.vec <- numeric(length = 0L)
-  for(id in df.thresh$id){
+  id_list <-df.thresh$id
+  for(id in id_list){
     dat <- read.csv(get_path(id, directory))
     dat <- na.omit(dat)
-    cor.vec <- c(cor.vec, cor(dat$sulfate, dat$nitrate))
+    cor1 <- cor(dat$sulfate, dat$nitrate)
+    cor.vec <- c(cor.vec, cor1)
   }
+  cor.vec
 }
