@@ -1,13 +1,6 @@
 best <- function(state, outcome){
   data <- read.csv('Assignment_3/outcome-of-care-measures.csv')
-  valid_states <- unique(data$State)
-  valid_outcomes <- c("heart attack", "heart failure", "pneumonia")
-  if(!state %in% valid_states){
-    stop("invalid state")
-  }
-  if(!outcome %in% valid_outcomes){
-    stop("invalid outcome")
-  }
+  check_if_valid(state, outcome, data)
   hosp <- data[data$State == state, ]
   best <- character()
   if(outcome == "heart attack"){
@@ -27,7 +20,15 @@ best <- function(state, outcome){
     best <- hosp[hosp$Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia == min_val ,]
   }
   names <- best$Hospital.Name
-
   head(sort(names, decreasing = FALSE), 1)
-  
+}
+check_if_valid <- function(state, outcome, data){
+  valid_states <- unique(data$State)
+  valid_outcomes <- c("heart attack", "heart failure", "pneumonia")
+  if(!state %in% valid_states){
+    stop("invalid state")
+  }
+  if(!outcome %in% valid_outcomes){
+    stop("invalid outcome")
+  }
 }
