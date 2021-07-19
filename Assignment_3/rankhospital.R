@@ -19,6 +19,7 @@ rankhospital <- function(state, outcome, num = "best") {
   }
   hosp_name
 }
+#returns dataframe containing selected state and outcome
 get_hosp_var <- function(state, outcome, data = read.csv("Assignment_3/outcome-of-care-measures.csv")){
   temp <- data[data$State == state, ]
   if(outcome == "heart attack"){
