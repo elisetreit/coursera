@@ -7,11 +7,11 @@ rankhospital <- function(state, outcome, num = "best") {
   ## Return hospital name in that state with the given rank
   ## 30-day death rate
   hosp.list <- get_hosp_var(state, outcome, data)
-  ranked <- hosp.list[order(hosp.list$Rate, hosp.list$Hospital.Name), ]
+  ranked <- hosp.list[order(as.numeric(hosp.list$Rate), hosp.list$Hospital.Name), ]
   if(num == "best"){
     hosp_name <- ranked[1, "Hospital.Name"]
   }
-  if(num == "worst"){
+  else if(num == "worst"){
     hosp_name <- tail(ranked, 1)$Hospital.Name
   }
   else {
@@ -19,7 +19,7 @@ rankhospital <- function(state, outcome, num = "best") {
   }
   hosp_name
 }
-get_hosp_var <- function(state, outcome, data){
+get_hosp_var <- function(state, outcome, data = read.csv("Assignment_3/outcome-of-care-measures.csv")){
   temp <- data[data$State == state, ]
   if(outcome == "heart attack"){
     temp <- temp[, c("State", "Hospital.Name", "Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack")]
@@ -33,6 +33,7 @@ get_hosp_var <- function(state, outcome, data){
     temp <- temp[, c("State", "Hospital.Name", "Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia")]
     names(temp) <- c("State", "Hospital.Name", "Rate")
   }
+  temp<- temp[temp$Rate != "Not Available" ,]
   temp
   
 }
